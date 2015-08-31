@@ -1,15 +1,18 @@
 {%- set p  = salt['pillar.get']('hdfs', {}) %}
+{%- set h  = salt['pillar.get']('hosts', {}) %}
 {%- set pc = p.get('config', {}) %}
 {%- set g  = salt['grains.get']('hdfs', {}) %}
 {%- set gc = g.get('config', {}) %}
 
-# TODO: https://github.com/accumulo/hadoop-formula/issues/1 'Replace direct mine.get calls'
+#are these these boolean?
 {%- set namenode_target     = g.get('namenode_target', p.get('namenode_target', 'roles:hadoop_master')) %}
 {%- set datanode_target     = g.get('datanode_target', p.get('datanode_target', 'roles:hadoop_slave')) %}
+
+
 # this is a deliberate duplication as to not re-import hadoop/settings multiple times
 {%- set targeting_method    = salt['grains.get']('hadoop:targeting_method', salt['pillar.get']('hadoop:targeting_method', 'grain')) %}
-{%- set namenode_host       = salt['mine.get'](namenode_target, 'network.interfaces', expr_form=targeting_method)|first %}
-{%- set datanode_hosts      = salt['mine.get'](datanode_target, 'network.interfaces', expr_form=targeting_method).keys() %}
+{%- set namenode_host       = h.get('namenode_host', 'failed to get namenode host') %}
+{%- set datanode_hosts      = h.get('datanode_hosts', ['failed', 'to', 'get', 'datanode', 'hosts',]) %}
 {%- set datanode_count      = datanode_hosts|count() %}
 {%- set namenode_port       = gc.get('namenode_port', pc.get('namenode_port', '8020')) %}
 {%- set namenode_http_port  = gc.get('namenode_http_port', pc.get('namenode_http_port', '50070')) %}

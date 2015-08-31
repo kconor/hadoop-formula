@@ -15,8 +15,8 @@
 {% for disk in hdfs_disks %}
 {{ disk }}/hdfs:
   file.directory:
-    - user: root
-    - group: root
+    - user: {{ username }}
+    - group: hadoop
     - makedirs: True
 {% if hdfs.is_namenode %}
 {{ disk }}/hdfs/nn:
