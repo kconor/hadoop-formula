@@ -29,31 +29,14 @@
       - group: {{ username }}
 
 {{ username }}_private_key:
-  file.managed:
-    - name: {{ userhome }}/.ssh/id_dsa
+  file.copy:
+    - source: /home/ubuntu/.ssh/id_rsa
+    - name: {{ userhome }}/.ssh/id_rsa
     - user: {{ username }}
     - group: {{ username }}
     - mode: 600
-    - source: salt://hadoop/files/dsa-{{ username }}
     - require:
       - file: {{ userhome }}/.ssh
-
-{{ username }}_public_key:
-  file.managed:
-    - name: {{ userhome }}/.ssh/id_dsa.pub
-    - user: {{ username }}
-    - group: {{ username }}
-    - mode: 644
-    - source: salt://hadoop/files/dsa-{{ username }}.pub
-    - require:
-      - file: {{ username }}_private_key
-
-ssh_dss_{{ username }}:
-  ssh_auth.present:
-    - user: {{ username }}
-    - source: salt://hadoop/files/dsa-{{ username }}.pub
-    - require:
-      - file: {{ username }}_private_key
 
 {{ userhome }}/.ssh/config:
   file.managed:
