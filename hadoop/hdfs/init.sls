@@ -18,6 +18,10 @@
     - user: {{ username }}
     - group: hadoop
     - makedirs: True
+    - mode: 755
+    - recurse:
+      - user
+      - group
 {% if hdfs.is_namenode %}
 {{ disk }}/hdfs/nn:
   file.directory:
