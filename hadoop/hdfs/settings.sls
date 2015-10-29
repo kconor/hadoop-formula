@@ -23,7 +23,7 @@
 
 # Todo: this might be a candidate for pillars/grains
 # {%- set tmp_root        = local_disks|first() %}
-{%- set tmp_dir         = '/tmp' %}
+{%- set tmp_dir         = '/vol/hadoop-tmp' %}
 
 {%- if hdfs_repl_override == 'x' %}
 {%- if datanode_count >= 3 %}

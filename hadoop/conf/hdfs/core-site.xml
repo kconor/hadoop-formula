@@ -30,12 +30,10 @@
         <value>hdfs://{{ hdfs.namenode_host }}:{{ hdfs.namenode_port }}</value>
     </property>
      
-<!--
     <property>
         <name>hadoop.tmp.dir</name>
         <value>{{ hdfs.tmp_dir }}</value>
     </property>
--->
 
 {%- for name, subdict in dyn_cfg.items() %}
     <property>
